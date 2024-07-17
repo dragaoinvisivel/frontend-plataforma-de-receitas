@@ -66,3 +66,17 @@ Se você já estiver no diretório correto, basta rodar o seguinte comando (func
 Caso você esteja executando o sistema pela primeira vez, o Docker irá baixar todas as dependências necessárias, e talvez este processo demore dependendo da sua velocidade de internet. Esse processo ocorre apenas uma vez, nas próximas vezes o sistema irá iniciar instantaneamente.
 
 Quando todos os carregamentos finalizarem, o sistema terá iniciado com sucesso. Basta acessar ```http://localhost:5050``` no seu navegador para começar a utilizá-lo.
+
+## Adicionando cursos
+A forma que o Docker enxerga os diretórios do seu computador é diferente, e isso pode gerar dúvidas no momento de adicionar cursos na plataforma. Este guia irá auxiliá-lo no processo de adição de conteúdos.
+
+Na etapa de [instalação](#1-instalando), você inseriu no final do arquivo ```docker-compose.yml``` um diretório onde todos os seus cursos estão. Para fins de documentação, vamos supor que o diretório inserido foi ```C:\Users\myuser\Downloads\courses```.
+
+Vamos supor que o curso que você quer adicionar está dentro desse diretório, em uma pasta chamada ```programming-course```. Naturalmente, você deve imaginar que a forma de fazer isso seria informar o seguinte caminho no momento de adicionar o curso: ```C:\Users\myuser\Downloads\courses\programming-course```. Mas isto **não irá funcionar**.
+
+Ao adicionar um curso na plataforma, você deve **ignorar** o diretório original onde estão os seus cursos. Foque apenas no que está **dentro** desse diretório. No nosso exemplo, sabemos que dentro desse diretório existe a pasta ```programming-course```, e este é o curso que queremos adicionar.
+
+Para fazer isso, **ignore** o diretório original que você definiu no arquivo ```docker-compose.yml```, e susbstitua-o por **```/courses```**. Sendo assim, no nosso exemplo, para conseguirmos adicionar o curso ```C:\Users\myuser\Downloads\courses\programming-course```, precisamos inserir o caminho **```/courses/programming-course```**.
+
+> [!NOTE]
+> Para usuários de Windows, note que as barras do caminho são invertidas. Portanto, se o caminho original do seu curso é ```C:\Users\myuser\Downloads\courses\programming-course```, você precisa digitar as barras invertidas, conforme exemplo: **```/courses/programming-course```**.
