@@ -17,27 +17,27 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://localhost:5000',
+        target: 'http://localhost:9823',
         changeOrigin: true,
         secure: false,
       },
       '/serve-video': {
-        target: 'http://localhost:5000',
+        target: 'http://localhost:9823',
         changeOrigin: true,
         secure: false,
       },
       '/serve-txt': {
-        target: 'http://localhost:5000',
+        target: 'http://localhost:9823',
         changeOrigin: true,
         secure: false,
       },
       '/serve-files': {
-        target: 'http://localhost:5000',
+        target: 'http://localhost:9823',
         changeOrigin: true,
         secure: false,
       },
       '/uploads': {
-        target: 'http://localhost:5000',
+        target: 'http://localhost:9823',
         changeOrigin: true,
         secure: false,
       },
