@@ -14,7 +14,7 @@ services:
     container_name: back-end
     image: ghcr.io/ryanrpj/backend-plataforma-de-receitas:latest
     restart: always
-    volumes:
-      - your-courses:/data
     ports:
       - 9823:9823
+    volumes:
+      - your-courses:/courses:ro
