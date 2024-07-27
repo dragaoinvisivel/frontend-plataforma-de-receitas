@@ -29,7 +29,8 @@ export default function AddCourse({ onCreate }: Props) {
   const [courseName, setCourseName] = useState<string>("");
   const [imageURL, setImageURL] = useState<string>("");
   const [coursePath, setCoursePath] = useState<string>("");
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoadingManualInsertion, setIsLoadingManualInsertion] = useState<boolean>(false);
+  const [isLoadingAutoInsertion, setIsLoadingAutoInsertion] = useState<boolean>(false);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -37,9 +38,24 @@ export default function AddCourse({ onCreate }: Props) {
 
   const { apiUrl } = useApiUrl();
 
+  const automaticallyAddCourses = async () => {
+    try {
+      setIsLoadingAutoInsertion(true);
+      await fetch(`${apiUrl}/api/courses/add-all`, { method: "POST" });
+      onCreate();
+    } catch (_) {
+      toast.error("Erro ao adicionar cursos automaticamente", {
+        duration: 2000,
+      });
+    } finally {
+      setIsLoadingAutoInsertion(false);
+      onCreate();
+    }
+  }
+
   const handleSubmit = async () => {
     setIsOpen(false);
-    setIsLoading(true);
+    setIsLoadingManualInsertion(true);
     const formData = new FormData();
 
     formData.append("name", courseName);
@@ -64,7 +80,7 @@ export default function AddCourse({ onCreate }: Props) {
       if (!response.ok) {
         const errorMessage = await response.json();
         toast.error(errorMessage.error);
-        setIsLoading(false);
+        setIsLoadingManualInsertion(false);
 
         return;
       }
@@ -87,7 +103,7 @@ export default function AddCourse({ onCreate }: Props) {
         },
       });
     } finally {
-      setIsLoading(false);
+      setIsLoadingManualInsertion(false);
       onCreate();
       setCourseName("");
       setImageURL("");
@@ -97,16 +113,18 @@ export default function AddCourse({ onCreate }: Props) {
 
   return (
     <div className="flex gap-4 items-center">
-      {isLoading && (
+      {isLoadingAutoInsertion || isLoadingManualInsertion && (
         <div className="flex justify-center bg-neutral-100 dark:bg-neutral-800 px-8 py-2 rounded-md text-sm items-center">
           <Loader2 className="animate-spin h-4 mr-4" />
           <p>Salvando curso...</p>
         </div>
       )}
 
+      <Button onClick={automaticallyAddCourses}>Adicionar automaticamente</Button>
+
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogTrigger asChild>
-          <Button>Adicionar</Button>
+          <Button variant={"link"}>Adicionar manualmente</Button>
         </DialogTrigger>
         <DialogContent className="md:max-w-[700px] max-w-80">
           <DialogHeader>
